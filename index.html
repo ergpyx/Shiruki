@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>シフト表</title>
+<style>
+:root{--bg:#eceae4;--ink:#222;--mut:#6b6b66;--red:#d4202a;--blue:#1f4fa8;--wk:#f1f1ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17181a;--mut:#9a9a94}}
+:root[data-theme="dark"]{--bg:#17181a;--mut:#9a9a94}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--mut);font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;font-size:14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:end;padding:12px 14px;background:#fff;color:#222;border-bottom:1px solid #ccc}
+.bar label{display:flex;flex-direction:column;font-size:11px;color:#555;gap:2px}
+input,select,button{font:inherit}
+input[type=date],input[type=number],input[type=text],input[type=password],select{padding:5px 7px;border:1px solid #aaa;border-radius:4px;background:#fff;color:#222}
+input[type=number]{width:64px}
+button{padding:6px 11px;border:1px solid #1f3a5f;background:#fff;color:#1f3a5f;border-radius:4px;cursor:pointer}
+button.p{background:#1f3a5f;color:#fff}
+button.on{background:#1f3a5f;color:#fff}
+button:hover{filter:brightness(.94)}
+button:focus-visible,input:focus-visible,select:focus-visible,td:focus-visible{outline:2px solid #1f4fa8;outline-offset:1px}
+.sp{flex:1}
+.lg{display:inline-flex}.lg button:first-child{border-radius:4px 0 0 4px}.lg button:last-child{border-radius:0 4px 4px 0;margin-left:-1px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:8px 14px;font-size:12px}
+.legend b{color:#222;font-weight:600;background:#fff;border:1px solid #bbb;border-radius:3px;padding:0 6px;margin-right:3px}
+.wrap{margin:0 14px 14px;background:#fff;padding:14px;border:1px solid #bbb;overflow-x:auto;color:#222}
+.title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 6px;font-size:13px;color:#444}
+table.s{border-collapse:collapse;width:100%;min-width:1180px;table-layout:fixed}
+table.s td,table.s th{border:1px solid #777;text-align:center;padding:0;height:30px;font-weight:400}
+.s .h th{height:22px;font-size:12px}
+.s .nm{text-align:left!important;padding:2px 6px!important;line-height:1.25}
+.s .nm small{font-size:10px;color:#555;margin-left:4px}
+.s .mc{font-size:13px;vertical-align:top;padding-top:6px!important}
+.s .sm{font-size:12px}
+.s .sat{color:var(--blue)}.s .sun{color:var(--red)}
+.s td.we{background:var(--wk)}
+.s td.c{font-size:17px;user-select:none;position:relative}
+body.edit .s td.c{cursor:pointer}
+body.edit .s td.c:hover{background:#e6eefb}
+.s td.h1{color:#1f4fa8}.s td.h2{color:#222}.s td.h3{color:#0e7a4d}
+.s td.ct{color:#b35a00;font-weight:700;font-size:15px;background:#fff3e0}
+.s td.hx::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:20px;transform:translate(-50%,-50%);border:3px solid var(--red);border-radius:50%;pointer-events:none}
+.s tr.sep td{border-top:1px dashed #555}
+.s .ok{color:#0e7a4d;font-weight:700}.s .ng{color:var(--red);font-weight:700}
+.s tfoot td{height:28px;font-weight:600}
+.st{margin:0 14px 14px;background:#fff;padding:12px 14px;border:1px solid #bbb;color:#222;overflow-x:auto}
+.st h2{font-size:14px;margin:0 0 8px}
+.st table{border-collapse:collapse;width:100%;min-width:760px}
+.st td,.st th{padding:4px 5px;border-bottom:1px solid #ddd;font-size:12px;text-align:left;font-weight:400}
+.st input[type=text]{width:100%}
+.st .dow label{margin-right:5px;white-space:nowrap}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0}
+.row input[type=text]{flex:1;min-width:220px}
+#pop{position:fixed;z-index:9;background:#fff;color:#222;border:1px solid #777;border-radius:6px;padding:8px;box-shadow:0 4px 14px rgba(0,0,0,.25);display:flex;gap:4px;flex-wrap:wrap;width:230px;align-items:center}
+#pop[hidden]{display:none}
+#pop button{font-size:16px;padding:4px 9px}
+#pop input{width:90px}
+#msg{padding:0 14px 8px;font-size:12px;min-height:18px;color:var(--red)}
+body.view .ed{display:none!important}
+@media print{.bar,.legend,.st,.noprint,#msg,#pop{display:none!important}body{background:#fff}.wrap{margin:0;border:0;padding:0}@page{size:A4 landscape;margin:8mm}}
+</style>
+</head>
+<body class="edit">
+<div class="bar noprint">
+  <span class="ed" style="display:contents">
+  <label><span data-t="start"></span><input type="date" id="start"></label>
+  <label><span data-t="end"></span><input type="date" id="end"></label>
+  <button id="prev" data-t="prev"></button>
+  <button id="cur" class="p" data-t="cur"></button>
+  <button id="next" data-t="next"></button>
+  <label><span data-t="kk"></span><input type="number" id="kk" min="0" max="31"></label>
+  <label><span data-t="mc"></span><input type="text" id="mc" style="width:110px"></label>
+  <button id="reset" data-t="reset"></button>
+  <button id="save" class="p" data-t="save"></button>
+  <button id="dl" data-t="dl"></button>
+  </span>
+  <span class="sp"></span>
+  <span class="lg"><button id="lja">日本語</button><button id="len">English</button></span>
+  <button id="print" data-t="print"></button>
+</div>
+<div class="bar noprint ed" id="auth" style="border-top:0;padding-top:0">
+  <label><span data-t="pw"></span><input type="password" id="pw" inputmode="numeric" autocomplete="off" style="width:110px"></label>
+  
+</div>
+<div class="legend noprint ed">
+  <span data-t="legend"></span><span><b>早</b><i data-t="haya" style="font-style:normal"></i></span><span><b>中</b><i data-t="naka" style="font-style:normal"></i></span><span><b>遅</b><i data-t="oso" style="font-style:normal"></i></span><span><b style="color:#d4202a">◯</b><i data-t="off" style="font-style:normal"></i></span><span><b style="color:#b35a00">5</b><i data-t="custom" style="font-style:normal"></i></span>
+</div>
+<div id="msg" class="noprint"></div>
+<div class="st noprint ed" id="lkbox" hidden>
+  <h2 data-t="link"></h2>
+  <div class="row"><input type="text" id="lk" readonly><button id="cp" data-t="copy"></button></div>
+</div>
+<div class="wrap">
+  <div class="title"><span id="pl"></span><span id="kl"></span></div>
+  <table class="s" id="tb"></table>
+</div>
+<div class="st noprint ed">
+  <h2 data-t="staff"></h2>
+  <table id="stt"></table>
+  <p style="margin:10px 0 0"><button id="add" data-t="add"></button></p>
+</div>
+<div class="st noprint ed" id="svbox" hidden>
+  <h2 data-t="savedList"></h2>
+  <div id="sv"></div>
+</div>
+<div id="pop" hidden>
+  <button data-v="h">早</button><button data-v="n">中</button><button data-v="o">遅</button><button data-v="x" style="color:#d4202a">◯</button><button data-v="" data-t="blank"></button>
+  <input type="text" id="ct" placeholder="5 / 7:30"><button id="cok" data-t="ok"></button>
+</div>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,doc,setDoc,onSnapshot,getDocs,collection} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyD8T5af9tTF2FyiNl4Gx721EFjrH_VdcYo",authDomain:"shiruki.firebaseapp.com",projectId:"shiruki",storageBucket:"shiruki.firebasestorage.app",messagingSenderId:"981216231948",appId:"1:981216231948:web:0267a94e35b69bb2ffe429"});
+const fs=getFirestore(app);
+window.FB={
+ doc:p=>({onSnapshot:(n,e)=>onSnapshot(doc(fs,p),s=>n({exists:s.exists(),data:()=>s.data()}),e),set:d=>setDoc(doc(fs,p),d)}),
+ collection:p=>({get:async()=>{const q=await getDocs(collection(fs,p));return{docs:q.docs.map(d=>({data:()=>d.data()}))}}})};
+dispatchEvent(new Event('fb-ready'));
+</script>
+<script>
+const T={
+ja:{start:'開始日',end:'終了日',prev:'◀ 前の月',cur:'今月',next:'次の月 ▶',dl:'JSON保存',email:'メール',pw:'PIN',login:'ログイン',logout:'ログアウト',loginErr:'ログインできません',needLogin:'PINを入力してください',mklink:'リンクを作成しました(この表のデータを含みます)',kk:'公休日数',mc:'機械名',reset:'初期化',print:'印刷',save:'保存して共有',legend:'マスをクリックして変更:',haya:'早番',naka:'中番',oso:'遅番',off:'公休',blank:'空白',custom:'時刻指定(例 5時)',ok:'OK',staff:'従業員と基本の休み',name:'名前',role:'役職',note:'備考',dow:'基本の休み',shift:'基本のシフト',del:'削除',add:'+ 従業員を追加',link:'閲覧用リンク(保存済み)',copy:'コピー',copied:'コピーしました',savedList:'保存済みのシフト表',load:'開く',work:'出勤',offc:'公休',present:'出社人数',loading:'読み込み中…',nf:'このシフト表は見つかりません',nodb:'共有機能が使えません(ログインが必要です)',err:'PINが違うか、保存できませんでした',conf:'手入力の変更をすべて消しますか?',okSaved:'保存しました',kkh:n=>`公休 ${n} 日`,none:'なし'},
+en:{start:'Start',end:'End',prev:'◀ Prev month',cur:'This month',next:'Next month ▶',dl:'Download JSON',email:'Email',pw:'PIN',login:'Log in',logout:'Log out',loginErr:'Login failed',needLogin:'Enter the PIN',mklink:'Link created (it contains this schedule data)',kk:'Days off',mc:'Machine name',reset:'Reset',print:'Print',save:'Save & share',legend:'Click a cell to change:',haya:'Early',naka:'Mid',oso:'Late',off:'Day off',blank:'Blank',custom:'Custom time (e.g. 5)',ok:'OK',staff:'Staff & default days off',name:'Name',role:'Role',note:'Note',dow:'Default days off',shift:'Usual shift',del:'Delete',add:'+ Add staff',link:'View-only link (saved)',copy:'Copy',copied:'Copied',savedList:'Saved schedules',load:'Open',work:'Work',offc:'Off',present:'On duty',loading:'Loading…',nf:'This schedule was not found',nodb:'Sharing is unavailable (sign-in required)',err:'Wrong PIN or could not save',conf:'Erase all manual changes?',okSaved:'Saved',kkh:n=>`Days off: ${n}`,none:'none'}};
+const WDJ=['日','月','火','水','木','金','土'],WDE=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const SH={h:'早',n:'中',o:'遅'};
+const DEF=[
+ {name:'越川 雄介',role:'社員',note:'',off:[6,0],def:'h'},
+ {name:'原田 美架',role:'社員',note:'',off:[4,5],def:'n'},
+ {name:'チェン',role:'',note:'特定技能',off:[3,4],def:'h'},
+ {name:'チ ケンリ',role:'',note:'特定技能 2/8',off:[3,4],def:'n'},
+ {name:'プトリ',role:'',note:'特定技能 6/21',off:[1,2],def:'o'},
+ {name:'チャン',role:'',note:'特定技能 2/28',off:[6,0],def:'h'},
+ {name:'リヤン',role:'',note:'特定技能 4/21',off:[1,2],def:'n'},
+ {name:'ミョウ',role:'',note:'特定技能 8/5',off:[5,6],def:'o'},
+ {name:'ナイン',role:'',note:'8/13',off:[1,2],def:'h'}
+];
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const pd=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const ddmmyy=s=>{const d=pd(s);return pad(d.getDate())+pad(d.getMonth()+1)+String(d.getFullYear()).slice(2)};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let L='ja';try{L=localStorage.getItem('shift-lang')||'ja'}catch(e){}
+const t=k=>T[L][k]??k;
+let S={start:'',end:'',kk:8,mc:'シール機',staff:[],cells:{}};
+let mode='edit',unsub=null,popKey=null,dbp=null;
+
+let authUser=null;
+function getDb(){if(!dbp)dbp=new Promise(r=>{if(window.FB)r(window.FB);else addEventListener('fb-ready',()=>r(window.FB));setTimeout(()=>r(window.FB||null),8000)});return dbp}
+function msg(s,ok){const m=$('msg');m.textContent=s;m.style.color=ok?'#0e7a4d':'var(--red)'}
+function period(o){const n=new Date();let m=n.getMonth();if(n.getDate()<21)m--;m+=o;return[iso(new Date(n.getFullYear(),m,21)),iso(new Date(n.getFullYear(),m+1,20))]}
+function days(){const a=pd(S.start),b=pd(S.end),r=[];if(isNaN(a)||isNaN(b)||b<a)return r;for(let d=new Date(a);d<=b&&r.length<62;d.setDate(d.getDate()+1))r.push(new Date(d));return r}
+function val(st,d){const k=st.id+'_'+iso(d);if(k in S.cells)return S.cells[k];return st.off.includes(d.getDay())?'x':(st.def||'')}
+function saveLocal(){try{localStorage.setItem('shift-v2',JSON.stringify(S))}catch(e){}}
+function loadLocal(){try{const j=localStorage.getItem('shift-v2');if(j){S=JSON.parse(j);return}}catch(e){}
+  S.staff=DEF.map((s,i)=>({...s,id:'s'+i}));[S.start,S.end]=period(0)}
+
+function applyLang(){
+  document.documentElement.lang=L;
+  document.querySelectorAll('[data-t]').forEach(e=>e.textContent=t(e.dataset.t));
+  $('lja').className=L=='ja'?'on':'';$('len').className=L=='en'?'on':'';
+  document.title=L=='ja'?'シフト表':'Shift schedule';
+}
+function renderTable(){
+  const ds=days(),a=pd(S.start),b=pd(S.end),WD=L=='ja'?WDJ:WDE,ro=mode!='edit';
+  if(!isNaN(a)&&!isNaN(b))$('pl').textContent=L=='ja'?`${a.getFullYear()}年(R${a.getFullYear()-2018}年) ${a.getMonth()+1}月${a.getDate()}日 ～ ${b.getFullYear()}/${b.getMonth()+1}/${b.getDate()}`:`${a.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} – ${b.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`;
+  $('kl').textContent=t('kkh')(S.kk);
+  const cls=d=>d.getDay()==0?'sun':d.getDay()==6?'sat':'';
+  let h=`<colgroup><col style="width:58px"><col style="width:150px">${ds.map(()=>'<col>').join('')}<col style="width:46px"><col style="width:46px"></colgroup>`;
+  h+=`<thead><tr class="h"><th colspan="2" rowspan="2" style="font-size:13px">${t('kkh')(S.kk)}</th>${ds.map(d=>`<th class="${cls(d)}">${d.getDate()}</th>`).join('')}<th rowspan="2" class="sm">${t('work')}</th><th rowspan="2" class="sm">${t('offc')}</th></tr>`;
+  h+=`<tr class="h">${ds.map(d=>`<th class="${cls(d)}">${WD[d.getDay()]}</th>`).join('')}</tr></thead><tbody>`;
+  S.staff.forEach((st,i)=>{
+    let w=0,x=0;
+    const tds=ds.map(d=>{
+      const v=val(st,d);let c='h',txt='';
+      if(v==='x'){x++;c='hx'}else if(v){w++;if(v[0]=='t'){c='ct';txt=esc(v.slice(2))}else{c='h'+('hno'.indexOf(v)+1);txt=SH[v]}}
+      const we=(d.getDay()==0||d.getDay()==6)?' we':'';
+      return `<td class="c${we} ${c}" ${ro?'':'tabindex="0"'} data-s="${st.id}" data-d="${iso(d)}">${txt}</td>`;
+    }).join('');
+    h+=`<tr class="${i?'sep':''}">${i==0?`<td class="mc" rowspan="${S.staff.length}">${esc(S.mc)}</td>`:''}<td class="nm">${esc(st.name)}${st.role?' '+esc(st.role):''}${st.note?`<small>${esc(st.note)}</small>`:''}</td>${tds}<td class="sm">${w}</td><td class="sm ${x==S.kk?'ok':'ng'}">${x}</td></tr>`;
+  });
+  h+=`</tbody><tfoot><tr><td colspan="2">${t('present')}</td>${ds.map(d=>{let n=0;S.staff.forEach(st=>{const v=val(st,d);if(v&&v!=='x')n++});return `<td>${n}</td>`}).join('')}<td colspan="2"></td></tr></tfoot>`;
+  $('tb').innerHTML=h;
+}
+function renderStaff(){
+  const order=[1,2,3,4,5,6,0],WD=L=='ja'?WDJ:WDE;
+  $('stt').innerHTML=`<tr><th>${t('name')}</th><th>${t('role')}</th><th>${t('note')}</th><th>${t('dow')}</th><th>${t('shift')}</th><th></th></tr>`+S.staff.map((st,i)=>`<tr data-i="${i}">
+   <td><input type="text" data-f="name" value="${esc(st.name)}"></td>
+   <td><input type="text" data-f="role" value="${esc(st.role)}" style="width:60px"></td>
+   <td><input type="text" data-f="note" value="${esc(st.note)}"></td>
+   <td class="dow">${order.map(d=>`<label><input type="checkbox" data-w="${d}" ${st.off.includes(d)?'checked':''}>${WD[d]}</label>`).join('')}</td>
+   <td><select data-f="def"><option value="">${t('blank')}</option><option value="h" ${st.def=='h'?'selected':''}>早 ${t('haya')}</option><option value="n" ${st.def=='n'?'selected':''}>中 ${t('naka')}</option><option value="o" ${st.def=='o'?'selected':''}>遅 ${t('oso')}</option></select></td>
+   <td><button data-del="${i}">${t('del')}</button></td></tr>`).join('');
+}
+function setBar(){$('start').value=S.start;$('end').value=S.end;$('kk').value=S.kk;$('mc').value=S.mc}
+function renderAll(){applyLang();setBar();renderTable();if(mode=='edit')renderStaff()}
+
+/* routing: #/input = editor, #/DDMMYY = view-only */
+function go(){
+  if(unsub){unsub();unsub=null}
+  const r=location.hash.replace(/^#\/?/,'');
+  $('pop').hidden=true;msg('');
+  if(!r||r=='input'){
+    mode='edit';document.body.className='edit';loadLocal();renderAll();listSaved();
+  }else{
+    mode='view';document.body.className='view';S={start:'',end:'',kk:8,mc:'',staff:[],cells:{}};
+    applyLang();$('tb').innerHTML='';$('pl').textContent=t('loading');$('kl').textContent='';
+    if(r.startsWith('d/')){dec(r.slice(2)).then(d=>{S=d;renderAll()}).catch(()=>{$('pl').textContent=t('nf')});return}
+    getDb().then(async db=>{
+      if(!db){try{const x=await fetch('data/'+r+'.json');if(!x.ok)throw 0;S=await x.json();renderAll()}catch(e){$('pl').textContent=t('nf')}return}
+      unsub=db.doc('schedules/'+r).onSnapshot(s=>{
+        if(!s.exists){$('pl').textContent=t('nf');$('tb').innerHTML='';return}
+        S=s.data();delete S.k;renderAll();
+      },e=>{$('pl').textContent='';msg(t('nodb'))});
+    });
+  }
+}
+async function saveDb(){
+  const db=await getDb();if(!db){await staticLink();return}
+  const pin=$('pw').value.trim();if(!pin){msg(t('needLogin'));return}
+  const id=ddmmyy(S.start);
+  try{
+    await db.doc('schedules/'+id).set(JSON.parse(JSON.stringify({...S,id,updated:Date.now(),k:pin})));
+    const u=location.href.split('#')[0]+'#/'+id;$('lk').value=u;$('lkbox').hidden=false;msg(t('okSaved'),1);listSaved();
+  }catch(e){msg(t('err'))}
+}
+async function listSaved(){
+  const db=await getDb();if(!db)return;
+  try{
+    const q=await db.collection('schedules').get();
+    const rows=q.docs.map(d=>d.data()).filter(Boolean).sort((a,b)=>(b.start||'').localeCompare(a.start||''));
+    $('svbox').hidden=!rows.length;
+    $('sv').innerHTML=rows.map(r=>`<div class="row"><b>${esc(r.start)} ～ ${esc(r.end)}</b><span>#/${esc(r.id)}</span><button data-load="${esc(r.id)}">${t('load')}</button><button data-open="${esc(r.id)}">↗</button></div>`).join('');
+    window._rows=rows;
+  }catch(e){}
+}
+
+async function enc(o){let b=new TextEncoder().encode(JSON.stringify(o)),pre='r';
+  if(window.CompressionStream){b=new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer());pre='z'}
+  let bin='';b.forEach(c=>bin+=String.fromCharCode(c));return pre+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+async function dec(p){let u=Uint8Array.from(atob(p.slice(1).replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+  if(p[0]=='z')u=new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+  return JSON.parse(new TextDecoder().decode(u))}
+async function staticLink(){
+  const u=location.href.split('#')[0]+'#/d/'+await enc(S);
+  $('lk').value=u;$('lkbox').hidden=false;msg(t('mklink'),1)}
+function downloadJson(){
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));
+  a.download=ddmmyy(S.start)+'.json';a.click()}
+/* events */
+$('tb').addEventListener('click',e=>{
+  if(mode!='edit')return;const c=e.target.closest('td.c');if(!c)return;
+  popKey=c.dataset.s+'_'+c.dataset.d;
+  const p=$('pop'),r=c.getBoundingClientRect();p.hidden=false;
+  p.style.left=Math.max(4,Math.min(r.left-100,innerWidth-240))+'px';p.style.top=Math.min(r.bottom+4,innerHeight-100)+'px';
+  $('ct').value='';
+});
+$('tb').addEventListener('keydown',e=>{if((e.key=='Enter'||e.key==' ')&&e.target.matches('td.c')){e.preventDefault();e.target.click()}});
+function setCell(v){if(popKey===null)return;S.cells[popKey]=v;saveLocal();$('pop').hidden=true;renderTable()}
+$('pop').addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(b)setCell(b.dataset.v)});
+function okCustom(){const v=$('ct').value.trim();if(v)setCell('t:'+v)}
+$('cok').onclick=okCustom;
+$('ct').onkeydown=e=>{if(e.key=='Enter')okCustom()};
+document.addEventListener('click',e=>{if(!$('pop').contains(e.target)&&!e.target.closest('td.c'))$('pop').hidden=true});
+document.addEventListener('keydown',e=>{if(e.key=='Escape')$('pop').hidden=true});
+$('stt').addEventListener('input',e=>{
+  const tr=e.target.closest('tr[data-i]');if(!tr)return;const st=S.staff[tr.dataset.i];
+  if(e.target.dataset.f)st[e.target.dataset.f]=e.target.value;
+  if(e.target.dataset.w!==undefined){
+    const w=+e.target.dataset.w;st.off=e.target.checked?[...new Set([...st.off,w])]:st.off.filter(x=>x!=w);
+    for(const k of Object.keys(S.cells))if(k.startsWith(st.id+'_'))delete S.cells[k];
+  }
+  saveLocal();renderTable();
+});
+$('stt').addEventListener('click',e=>{
+  if(e.target.dataset.del===undefined)return;
+  const st=S.staff[e.target.dataset.del];for(const k of Object.keys(S.cells))if(k.startsWith(st.id+'_'))delete S.cells[k];
+  S.staff.splice(e.target.dataset.del,1);saveLocal();renderAll();
+});
+$('sv').addEventListener('click',e=>{
+  const l=e.target.dataset.load,o=e.target.dataset.open;
+  if(l){const r=window._rows.find(x=>x.id==l);if(r){S=JSON.parse(JSON.stringify(r));delete S.id;delete S.updated;delete S.k;saveLocal();renderAll();scrollTo(0,0)}}
+  if(o)window.open(location.href.split('#')[0]+'#/'+o,'_blank');
+});
+$('add').onclick=()=>{S.staff.push({id:'s'+Date.now(),name:'名前',role:'',note:'',off:[],def:''});saveLocal();renderAll()};
+$('start').onchange=e=>{if(e.target.value){S.start=e.target.value;saveLocal();renderTable()}};
+$('end').onchange=e=>{if(e.target.value){S.end=e.target.value;saveLocal();renderTable()}};
+$('kk').oninput=e=>{S.kk=+e.target.value||0;saveLocal();renderTable()};
+$('mc').oninput=e=>{S.mc=e.target.value;saveLocal();renderTable()};
+$('cur').onclick=()=>{[S.start,S.end]=period(0);saveLocal();setBar();renderTable()};
+function shiftMonth(n){const a=pd(S.start);if(isNaN(a))return;const m=new Date(a.getFullYear(),a.getMonth()+n,21);S.start=iso(m);S.end=iso(new Date(m.getFullYear(),m.getMonth()+1,20));saveLocal();setBar();renderTable()}
+$('next').onclick=()=>shiftMonth(1);
+$('prev').onclick=()=>shiftMonth(-1);
+$('reset').onclick=()=>{if(confirm(t('conf'))){S.cells={};saveLocal();renderTable()}};
+$('save').onclick=saveDb;
+$('pw').onkeydown=e=>{if(e.key=='Enter')saveDb()};
+$('dl').onclick=downloadJson;
+getDb().then(db=>{if(db)$('dl').hidden=true});
+$('print').onclick=()=>window.print();
+$('cp').onclick=()=>{$('lk').select();try{navigator.clipboard.writeText($('lk').value)}catch(e){document.execCommand('copy')}msg(t('copied'),1)};
+function setLang(l){L=l;try{localStorage.setItem('shift-lang',l)}catch(e){}renderAll();if(mode=='edit')listSaved()}
+$('lja').onclick=()=>setLang('ja');$('len').onclick=()=>setLang('en');
+addEventListener('hashchange',go);
+go();
+</script>
+</body>
+</html>
