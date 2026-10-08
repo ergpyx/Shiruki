@@ -59,6 +59,30 @@ body.edit .s td.c:hover{background:#e6eefb}
 #pop input{width:90px}
 #msg{padding:0 14px 8px;font-size:12px;min-height:18px;color:var(--red)}
 body.view .ed{display:none!important}
+@media (max-width:760px){
+body{font-size:13px}
+.bar{padding:8px 10px;gap:6px}
+.bar label{flex:1 1 42%}
+.bar input[type=date],.bar input[type=text],.bar input[type=number],.bar input[type=password]{width:100%!important}
+.bar button{padding:8px 10px}
+.wrap,.st{margin:0 6px 10px;padding:8px}
+.title{flex-direction:column;gap:2px}
+table.s{min-width:0;width:auto;table-layout:auto}
+.s col:nth-child(1){width:26px!important}.s col:nth-child(2){width:96px!important}
+.s td.c,.s thead th:not(:first-child),.s tfoot td{min-width:34px}
+.s td.c{height:38px;font-size:16px}
+.s .mc{writing-mode:vertical-rl;padding:4px 2px!important;font-size:12px;letter-spacing:2px}
+.s .nm{font-size:12px;padding:2px 4px!important}
+.s .nm small{display:block;margin:0}
+.s .mc,.s .nm,.s thead tr:first-child th:first-child,.s tfoot td:first-child{position:sticky;background:#fff;z-index:2;box-shadow:inset -1px 0 #777}
+.s .mc,.s thead tr:first-child th:first-child,.s tfoot td:first-child{left:0}
+.s .nm{left:26px}
+.st table{min-width:640px}
+#pop{left:8px!important;right:8px;top:auto!important;bottom:calc(8px + env(safe-area-inset-bottom,0px));width:auto;justify-content:center}
+#pop button{font-size:20px;padding:8px 14px}
+#pop input{width:110px;font-size:16px;padding:8px}
+input,select{font-size:16px}
+}
 @media print{.bar,.legend,.st,.noprint,#msg,#pop{display:none!important}body{background:#fff}.wrap{margin:0;border:0;padding:0}@page{size:A4 landscape;margin:8mm}}
 </style>
 </head>
